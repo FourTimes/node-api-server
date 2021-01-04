@@ -87,7 +87,12 @@ router.post("/SingleInstanceStart", (req, res) => {
 });
 
 
-
+router.post((req, res) => {
+  res.send({
+type: "sucess",
+result,
+  })
+})
 
 
 

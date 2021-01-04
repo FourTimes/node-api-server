@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const Promise = require("bluebird");
-const aws = require("aws-sdk");
+const aws = require("aws-sdk/clients");
 
 class awsec2 {
   constructor(credentials) {
@@ -109,8 +109,11 @@ class awsec2 {
       });
     });
   }
+
+  credentials() {
+    return new Promise((resolve, reject) => {});
+  }
 }
 
 module.exports = awsec2;
 
-// https://github.com/fabienvauchelles/scrapoxy/blob/develop/server/providers/awsec2/index.js
