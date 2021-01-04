@@ -19,8 +19,3 @@ Execution Process:
     cd react-api-ui
     vim package.json => Replace the proxy url => "proxy": "http://127.0.0.1:8080" => "proxy": "http://xxx.xxx.xxx.xxx:8080"
     npm  start      # 3000 (Open the security port also)
-
-
-
-
-
