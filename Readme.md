@@ -13,9 +13,11 @@ Execution Process:
     node --version
     git clone https://github.com/FourTimes/node-api-server.git
     cd node-api-server
+    npm install
     node index.js   # 8080 (Open the security port also)
     git clone https://github.com/FourTimes/react-api-ui.git
     cd react-api-ui
+    npm install
     vim package.json => Replace the proxy url => "proxy": "http://127.0.0.1:8080" => "proxy": "http://xxx.xxx.xxx.xxx:8080"
     npm  start      # 3000 (Open the security port also)
 
