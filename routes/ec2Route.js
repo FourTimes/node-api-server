@@ -1,15 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const cred = require('../Custom/credentials')
-const awsd = require('../Custom/awsInstance');
+const cred = require("../Custom/credentials");
+const awsd = require("../Custom/awsInstance");
 const compute = new awsd(cred);
 
 router.post("/instanceId", (req, res) => {
-console.log(req.body);
-  let idState = (req.body.State == "Start") ? 0 : 1;
+  console.log(req.body);
+  let idState = req.body.State == "Start" ? 0 : 1;
 
-  compute
-  .InstanceIds(idState).then((result) => {
+  compute.InstanceIds(idState).then((result) => {
     console.log(result);
     res.send(result);
   });
@@ -49,9 +48,8 @@ router.get("/stopInstance", (req, res) => {
     });
 });
 
-
 router.post("/SingleInstanceStop", (req, res) => {
-  let instanceid =req.body.Selectedid
+  let instanceid = req.body.Selectedid;
   compute
     .stopInstances(instanceid)
     .then((result) => {
@@ -69,7 +67,7 @@ router.post("/SingleInstanceStop", (req, res) => {
 });
 
 router.post("/SingleInstanceStart", (req, res) => {
-  let instanceid =req.body.Selectedid
+  let instanceid = req.body.Selectedid;
   compute
     .startInstances(instanceid)
     .then((result) => {
@@ -86,14 +84,22 @@ router.post("/SingleInstanceStart", (req, res) => {
     });
 });
 
-
-router.post((req, res) => {
-  res.send({
-type: "sucess",
-result,
-  })
-})
-
-
+router.post("/CreateInstance",(req, res) => {
+  let instaceParams = req.body;
+  compute
+    .createInstance(instaceParams)
+    .then((result) => {
+      res.send({
+        type: "Success",
+        result,
+      });
+    })
+    .catch((error) => {
+      res.send({
+        type: "Failure",
+        error,
+      });
+    });
+});
 
 module.exports = router;

@@ -110,8 +110,20 @@ class awsec2 {
     });
   }
 
+  createInstance(params) {
+    return new Promise((resolve, reject) => {
+      this._ec2.runInstances(params, (err, result) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(result)
+        }
+      });
+    });
+  }
 
+
+  
 }
 
 module.exports = awsec2;
-
