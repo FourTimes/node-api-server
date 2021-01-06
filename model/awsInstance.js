@@ -116,14 +116,11 @@ class awsec2 {
         if (err) {
           return reject(err);
         } else {
-          resolve(result)
+          resolve(result);
         }
       });
     });
   }
-
-
-  
 }
 
 module.exports = awsec2;

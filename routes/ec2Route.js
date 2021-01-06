@@ -1,105 +1,26 @@
 const express = require("express");
 const router = express.Router();
-const cred = require("../Custom/credentials");
-const awsd = require("../Custom/awsInstance");
-const compute = new awsd(cred);
 
-router.post("/instanceId", (req, res) => {
+const ec2detailsController = require("../controller/ec2instance")
+
+router.post("/instanceId", ec2detailsController.postInstanceId);
+router.get("/startInstance", ec2detailsController.getStartInstance);
+router.get("/stopInstance", ec2detailsController.getStopInstance );
+router.post("/singleInstanceStop", ec2detailsController.postSingleInstanceStop);
+router.post("/singleInstanceStart", ec2detailsController.postsingleInstanceStart);
+router.post("/createInstance", ec2detailsController.postcreateInstance);
+
+
+
+router.post('/new', function (req, res, next) {
   console.log(req.body);
-  let idState = req.body.State == "Start" ? 0 : 1;
-
-  compute.InstanceIds(idState).then((result) => {
-    console.log(result);
-    res.send(result);
+  res.locals.connection.query(`INSERT INTO register(firstname,lastname,username,city,state,zip)
+   VALUES('${req.body.FirstName}','${req.body.LastName}','${req.body.Username}','${req.body.City}','${req.body.State}','${req.body.Zip}')`, (error, results, fields) => {
+      if (error) throw error;
+      res.send(JSON.stringify(results));
   });
 });
 
-router.get("/startInstance", (req, res) => {
-  compute
-    .startInstances()
-    .then((result) => {
-      res.send({
-        type: "Success",
-        result,
-      });
-    })
-    .catch((error) => {
-      res.send({
-        type: "Failure",
-        error,
-      });
-    });
-});
 
-router.get("/stopInstance", (req, res) => {
-  compute
-    .stopInstances()
-    .then((result) => {
-      res.send({
-        type: "Success",
-        result,
-      });
-    })
-    .catch((error) => {
-      res.send({
-        type: "Failure",
-        error,
-      });
-    });
-});
-
-router.post("/SingleInstanceStop", (req, res) => {
-  let instanceid = req.body.Selectedid;
-  compute
-    .stopInstances(instanceid)
-    .then((result) => {
-      res.send({
-        type: "Success",
-        result,
-      });
-    })
-    .catch((error) => {
-      res.send({
-        type: "Failure",
-        error,
-      });
-    });
-});
-
-router.post("/SingleInstanceStart", (req, res) => {
-  let instanceid = req.body.Selectedid;
-  compute
-    .startInstances(instanceid)
-    .then((result) => {
-      res.send({
-        type: "Success",
-        result,
-      });
-    })
-    .catch((error) => {
-      res.send({
-        type: "Failure",
-        error,
-      });
-    });
-});
-
-router.post("/CreateInstance",(req, res) => {
-  let instaceParams = req.body;
-  compute
-    .createInstance(instaceParams)
-    .then((result) => {
-      res.send({
-        type: "Success",
-        result,
-      });
-    })
-    .catch((error) => {
-      res.send({
-        type: "Failure",
-        error,
-      });
-    });
-});
 
 module.exports = router;
